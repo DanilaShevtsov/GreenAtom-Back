@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres-green-atom
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 12341234
+      POSTGRES_USER: admin
+      POSTGRES_DB: greenatomdb
+    ports:
+      - 3021:5432
+    networks:
+      - greenatom
+
+networks:
+  greenatom:
+    external: true
