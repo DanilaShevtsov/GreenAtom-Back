@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ILike, Repository } from 'typeorm';
 import { SaveUserInfoCommand } from './dto/command/save-user-info.command';
 import { UsersInfoEntity } from './entities/user-info.entity';
+import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class UserService {
@@ -12,6 +13,7 @@ export class UserService {
   ) {}
 
   async store(data: SaveUserInfoCommand) {
+    data.id = uuid();
     return (await this.usersInfoRepository.save(data)).id;
   }
 
