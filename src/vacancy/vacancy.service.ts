@@ -26,15 +26,11 @@ export class VacancyService {
     await this.vacancyRepository.delete(data.id);
   }
 
-  async find(title?: string) {
-    let optionsWhere;
-    if (title) {
-      optionsWhere = { title: ILike(`%${title}%`) };
-    }
+  async find(id?: string) {
+    console.log(id)
     const data = await this.vacancyRepository.find({
-      where: optionsWhere,
+      where: {id: id},
     });
-    console.log(data)
     return data.map((e) => {
       return new VacancyInfoDto(e);
     });

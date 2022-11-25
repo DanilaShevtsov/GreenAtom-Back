@@ -1,4 +1,5 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/user/jwt.guard';
 import { DeleteVacancyCommand } from './dto/delete-vacancy.command';
 import { SaveVacancyCommand } from './dto/save-vacancy.command';
 import { UpdateVacancyCommand } from './dto/update-vacancy.command';
@@ -8,11 +9,8 @@ import { VacancyService } from './vacancy.service';
 export class VacancyController {
   constructor(public readonly vacancyService: VacancyService) {}
   @Get('find')
-  async find(@Query('title') title?: string) {
-    if (title) {
-      return await this.vacancyService.find(title);
-    }
-    return await this.vacancyService.find();
+  async find(@Query('id') id?: string) {
+    return await this.vacancyService.find(id);
   }
 
   @Get('update')
@@ -33,14 +31,11 @@ export class VacancyController {
     return true;
   }
 
-  @Get('store')
+  @UseGuards(JwtAuthGuard)
+  @Post('store')
   async store(
-    @Query('title') title: string,
-    @Query('preview') preview: string,
-    @Query('description') description: string,
-    @Query('city') city: string,
+    @Body() query: SaveVacancyCommand
   ) {
-    const storeData = new SaveVacancyCommand(title, preview, description, city);
-    await this.vacancyService.store(storeData);
+    await this.vacancyService.store(query);
   }
 }

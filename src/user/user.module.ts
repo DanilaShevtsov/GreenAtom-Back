@@ -24,5 +24,6 @@ require('dotenv').config();
   ],
   controllers: [UserController, UserAdminController],
   providers: [UserService, LocalStrategy, UserAdminService, JwtStrategy],
+  exports: [JwtStrategy]
 })
 export class UserModule {}
