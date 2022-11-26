@@ -6,6 +6,11 @@ import { StatisticService } from './statistic.service';
 export class StatisticController {
   constructor(public readonly statisticService: StatisticService) {}
 
+  @Get('find')
+  async find(@Query('vacancyId') vacancyId?: string) {
+    return await this.statisticService.find(vacancyId);
+  }
+
   @Get('update')
   async update(
     @Query('vacancyId') vacancyId: string,
