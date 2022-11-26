@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ILike, Repository } from 'typeorm';
+import { ILike, Raw, Repository } from 'typeorm';
 import { SaveUserInfoCommand } from './dto/command/save-user-info.command';
 import { UsersInfoEntity } from './entities/user-info.entity';
 import { v4 as uuid } from 'uuid';
+import { raw } from 'express';
 
 @Injectable()
 export class UserService {
@@ -13,8 +14,16 @@ export class UserService {
   ) {}
 
   async store(data: SaveUserInfoCommand) {
+    if(!await this.validateEmail(data.email)) {
+      throw new BadRequestException("Пользователь с таким email уже зарегистрирован")
+    }
     data.id = uuid();
     return (await this.usersInfoRepository.save(data)).id;
+  }
+
+  async validateEmail(email: string) {
+    const rows = await this.usersInfoRepository.findBy({ email: Raw((alias) => `LOWER(${alias}) = :email`, {email: email.toLowerCase()})})
+    return !(rows.length > 0);
   }
 
   /* async update(id: string, data: UpdateStudentCommand) {

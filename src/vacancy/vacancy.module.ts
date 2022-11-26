@@ -12,5 +12,6 @@ import { VacancyService } from './vacancy.service';
   imports: [TypeOrmModule.forFeature([VacancyEntity]), UserModule, StatisticModule],
   providers: [VacancyService],
   controllers: [VacancyController],
+  exports: [VacancyService],
 })
 export class VacancyModule {}

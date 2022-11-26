@@ -3,9 +3,9 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({name: 'user_admin', schema: "user"})
 export class UsersAdminEntity {
-  @PrimaryGeneratedColumn(
-    'uuid',
-  )
+  @PrimaryColumn({
+    type: 'uuid',
+  })
   id: string;
 
   @Column({
@@ -17,6 +17,7 @@ export class UsersAdminEntity {
   @Column({
     type: "varchar",
     comment: "email",
+    unique: true,
   })
   email: string;
 
