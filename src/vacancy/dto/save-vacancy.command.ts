@@ -1,4 +1,5 @@
 export class SaveVacancyCommand {
+  id: string;
   title: string;
   preview: string;
   description: string;

@@ -16,7 +16,7 @@ export class VacancyEntity {
 
   @Column({
     type: 'varchar',
-    comment: 'Краткое описание',
+    comment: 'Краткое описание',    
   })
   preview: string;
 
