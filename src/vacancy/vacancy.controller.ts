@@ -36,9 +36,11 @@ export class VacancyController {
   @Get('store')
   async store(
     @Query('title') title: string,
+    @Query('preview') preview: string,
     @Query('description') description: string,
+    @Query('city') city: string,
   ) {
-    const storeData = new SaveVacancyCommand(title, description);
+    const storeData = new SaveVacancyCommand(title, preview, description, city);
     await this.vacancyService.store(storeData);
   }
 }

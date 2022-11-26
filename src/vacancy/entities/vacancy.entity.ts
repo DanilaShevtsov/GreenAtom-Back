@@ -16,8 +16,20 @@ export class VacancyEntity {
 
   @Column({
     type: 'varchar',
+    comment: 'Краткое описание',
+  })
+  preview: string;
+
+  @Column({
+    type: 'varchar',
     comment: 'Описание',
   })
   description: string;
+
+  @Column({
+    type: 'varchar',
+    comment: 'Город',
+  })
+  city: string;
 
 }
