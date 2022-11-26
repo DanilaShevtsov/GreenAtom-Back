@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { QRCodeModule } from './qrcode/qrcode.module';
 import { QuizModule } from './quiz/quiz.module';
 import { UserModule } from './user/user.module';
 import { VacancyModule } from './vacancy/vacancy.module';
@@ -32,6 +33,7 @@ import { VacancyModule } from './vacancy/vacancy.module';
     UserModule,
     VacancyModule,
     QuizModule,
+    QRCodeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
