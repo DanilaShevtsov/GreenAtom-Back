@@ -1,11 +1,16 @@
 import { randomUUID } from 'crypto';
-import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { UsersAdminEntity } from 'src/user/entities/user-admin.entity';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('vacancy')
+@Entity({name: 'vacancy', schema: 'vacancy' })
 export class VacancyEntity {
+<<<<<<< Updated upstream
   @PrimaryColumn(
   'uuid',
   )
+=======
+  @PrimaryGeneratedColumn('uuid')
+>>>>>>> Stashed changes
   id: string;
 
   @Column({
@@ -15,13 +20,13 @@ export class VacancyEntity {
   title: string;
 
   @Column({
-    type: 'varchar',
+    type: 'text',
     comment: 'Краткое описание',    
   })
   preview: string;
 
   @Column({
-    type: 'varchar',
+    type: 'text',
     comment: 'Описание',
   })
   description: string;
@@ -32,4 +37,14 @@ export class VacancyEntity {
   })
   city: string;
 
+  @Column({
+    type: 'uuid',
+    comment: 'id hr',
+    nullable: true,
+  })
+  hrId: string;
+
+  @ManyToOne(() => UsersAdminEntity)
+  @JoinColumn()
+  hr: UsersAdminEntity;
 }

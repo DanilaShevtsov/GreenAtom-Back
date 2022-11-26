@@ -34,17 +34,9 @@ export class UserService {
     await this.studentsRepository.delete(data.id);
   } */
 
-  /* async find(name?: string) {
-    let optionsWhere;
-    if (name) {
-      optionsWhere = { name: ILike(`%${name}%`) };
-    }
-    const data = await this.studentsRepository.find({
-      where: optionsWhere,
+  async find(id?: string) {
+    return await this.usersInfoRepository.find({
+      where: {id: id},
     });
-    console.log(data)
-    return data.map((e) => {
-      return new StudentsInfoDto(e);
-    });
-  } */
+  }
 }

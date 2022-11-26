@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('statistic')
+@Entity({ name: 'statistic', schema: 'statistic'})
 export class StatisticEntity {
   @PrimaryColumn({
   type: 'varchar',

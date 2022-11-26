@@ -19,11 +19,11 @@ require('dotenv').config();
       PassportModule, 
       JwtModule.register({
         secret: process.env.JWT_SECRET_KEY,
-        signOptions: { expiresIn: '10m' },
+        signOptions: { expiresIn: '30m' },
       }),
   ],
   controllers: [UserController, UserAdminController],
   providers: [UserService, LocalStrategy, UserAdminService, JwtStrategy],
-  exports: [JwtStrategy]
+  exports: [JwtStrategy, UserService]
 })
 export class UserModule {}

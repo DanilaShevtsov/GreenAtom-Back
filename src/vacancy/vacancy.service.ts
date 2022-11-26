@@ -18,8 +18,9 @@ export class VacancyService {
     public statisticService: StatisticService,
   ) {}
 
-  async store(data: SaveVacancyCommand) {
+  async store(data: SaveVacancyCommand, hrId: string) {
     data.id = uuid()
+    data.hrId = hrId;
     await this.vacancyRepository.save(data);
     const saveCommand = new SaveStatisticCommand(0,0,0);
     saveCommand.vacancyId = data.id;
@@ -35,12 +36,19 @@ export class VacancyService {
   }
 
   async find(id?: string) {
-    console.log(id)
     const data = await this.vacancyRepository.find({
+      relations: ['hr'],
       where: {id: id},
     });
     return data.map((e) => {
       return new VacancyInfoDto(e);
+    });
+  }
+
+  async findWithoutParse(id?: string) {
+    return await this.vacancyRepository.find({
+      relations: ['hr'],
+      where: {id: id},
     });
   }
 }

@@ -4,6 +4,7 @@ export class SaveVacancyCommand {
   preview: string;
   description: string;
   city: string;
+  hrId: string
 
   constructor(title: string, preview: string, description: string, city: string) {
     this.title = title;

@@ -10,5 +10,6 @@ export class AnswerInfo {
 
 export class SendAnswersCommand {
   userId: string;
+  vacancyId: string;
   data: AnswerInfo[];
 }

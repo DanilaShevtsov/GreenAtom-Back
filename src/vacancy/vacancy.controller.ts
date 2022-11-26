@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, UseGuards, Request } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/user/jwt.guard';
 import { DeleteVacancyCommand } from './dto/delete-vacancy.command';
 import { SaveVacancyCommand } from './dto/save-vacancy.command';
@@ -34,8 +34,9 @@ export class VacancyController {
   @UseGuards(JwtAuthGuard)
   @Post('store')
   async store(
-    @Body() query: SaveVacancyCommand
+    @Body() query: SaveVacancyCommand,
+    @Request() req,
   ) {
-    await this.vacancyService.store(query);
+    await this.vacancyService.store(query, req.user.id);
   }
 }

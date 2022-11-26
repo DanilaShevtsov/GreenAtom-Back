@@ -10,6 +10,9 @@ import { SendAnswersCommand } from './dto/command/send-answers.command';
 import { QuizAnswersEntity } from './entities/quiz-answers.entity';
 import { SaveAnswersCommand } from './dto/command/save-answers.command';
 import { ScoreInfoDto } from './dto/score-info.dto';
+import { VacancyEntity } from 'src/vacancy/entities/vacancy.entity';
+import { EmailSenderService } from 'src/email-sender/email-sender.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class QuizQuestionService {
@@ -19,6 +22,8 @@ export class QuizQuestionService {
     @InjectRepository(QuizAnswersEntity)
     public quizAnswersRepository: Repository<QuizAnswersEntity>,
     public readonly vacancyService: VacancyService,
+    public readonly emailSenderService: EmailSenderService,
+    public readonly userService: UserService,
   ) {}
 
   async store(data: StoreQuestionCommand) {
@@ -55,11 +60,25 @@ export class QuizQuestionService {
         maxScore++;
       }
     })
-    try {
-      await this.quizAnswersRepository.insert(new SaveAnswersCommand(command, score, maxScore))
-    } catch(e) {
-      throw new BadRequestException("Этот пользователь уже прошел тестирование")
-    }
+      if (await this.validateAnswers(command.vacancyId, command.userId)) {
+        await this.quizAnswersRepository.insert(new SaveAnswersCommand(command, score, maxScore));
+      } else {
+        throw new BadRequestException("Этот пользователь уже прошел тестирование");
+      }
+    const vacancy = (await this.vacancyService.findWithoutParse('027c8666-f99b-4803-867e-3912ee019027'))[0]
+    const user = await this.userService.find(command.userId);
+    await this.emailSenderService.sendEmail(vacancy.hr.email, 
+      `${user[0].email} отправил запрос на прохождение стажировки по направлению ${vacancy.title}. Тест: ${score} правильных ответов их ${maxScore}`
+      )
     return new ScoreInfoDto(score, maxScore);
+  }
+
+  async getAnswers(vacancyId?: string, userId?: string ) {
+    return await this.quizAnswersRepository.find({where: {vacancyId: vacancyId, userId: userId}})
+  }
+
+  async validateAnswers(vacancyId: string, userId: string) {
+    const answers = await this.quizAnswersRepository.find({where: {vacancyId: vacancyId, userId: userId}});
+    return answers.length == 0;
   }
 }

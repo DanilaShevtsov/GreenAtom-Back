@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EmailSenderModule } from 'src/email-sender/email-sender.module';
 import { UserModule } from 'src/user/user.module';
 import { VacancyModule } from 'src/vacancy/vacancy.module';
 import { QuizAnswersEntity } from './entities/quiz-answers.entity';
@@ -13,6 +14,7 @@ require('dotenv').config();
       TypeOrmModule.forFeature([QuizQuestionsEntity, QuizAnswersEntity]),
       UserModule,
       VacancyModule,
+      EmailSenderModule
   ],
   controllers: [QuizQuestionController],
   providers: [QuizQuestionService],

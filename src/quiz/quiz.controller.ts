@@ -21,6 +21,12 @@ export class QuizQuestionController {
 
   @Post('send-answers')
   async sendAnswers(@Body() query: SendAnswersCommand) {
+    console.log(query)
     return await this.quizQuestionService.storeAnswers(query);
+  }
+
+  @Get('get-answers')
+  async getAnswers(@Query('vacancyId') vacancyId?: string, @Query('userId') userId?: string) {
+    return await this.quizQuestionService.getAnswers(vacancyId, userId)
   }
 }
