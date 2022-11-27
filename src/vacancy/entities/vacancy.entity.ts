@@ -4,13 +4,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryColumn, Primary
 
 @Entity({name: 'vacancy', schema: 'vacancy' })
 export class VacancyEntity {
-<<<<<<< Updated upstream
-  @PrimaryColumn(
-  'uuid',
-  )
-=======
   @PrimaryGeneratedColumn('uuid')
->>>>>>> Stashed changes
   id: string;
 
   @Column({
